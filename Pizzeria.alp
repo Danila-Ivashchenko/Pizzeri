@@ -685,7 +685,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[25]]></Code>
+							<Code><![CDATA[12]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1715763679753</Id>
@@ -1639,7 +1639,7 @@ int c = количество_пицц;
 
 for (int i = 0; i < c; i++) {
 	//п = пиццаs.get(i);
-	п = randomWhere(пиццаs, p -> p.востребованность == предпочтение && p.ингредиенты > 0);
+	п = randomWhere(пиццаs, p -> p.группа == предпочтение && p.ингредиенты > 0);
 	if (п != null) {
 		return п;
 	}
@@ -1716,9 +1716,10 @@ return c;
 нехватка_3_группы = 0;
 нехватка_2_группы = 0;
 
-for (int i = 0; i < количество_пицц; i++) {
+for (int i = 0; i < пиццаs.size(); i++) {
 	Пицца п = пиццаs.get(i);
-	switch (п.востребованность) {
+	
+	switch (п.группа) {
 		case (5):
 			п.ингредиенты = закупка_5_группы;
 			количество_5_группы += закупка_5_группы;
@@ -1737,6 +1738,8 @@ for (int i = 0; i < количество_пицц; i++) {
 			количество_2_группы += закупка_2_группы;
 			break;
 	}
+	traceln(п.название);
+	traceln(п.ингредиенты);
 	расходы_на_пиццу += п.себестоимость * п.ингредиенты;
 } ]]></Body>
 				</Function>
@@ -1755,7 +1758,7 @@ for (int i = 0; i < количество_пицц; i++) {
 						<Type><![CDATA[Пицца]]></Type>
 					</Parameter>
 					<Body><![CDATA[п.ингредиенты--;
-switch (п.востребованность) {
+switch (п.группа) {
 	case (5):
 		количество_5_группы--;
 		break;
@@ -2290,6 +2293,27 @@ switch (п.востребованность) {
 										</GenericParameterSubstituteReference>
 									</GenericParameterSubstitute>
 									<Parameters>
+										<Parameter>
+											<Name><![CDATA[количество]]></Name>
+										</Parameter>
+										<Parameter>
+											<Name><![CDATA[предпочтение]]></Name>
+										</Parameter>
+										<Parameter>
+											<Name><![CDATA[удовлетворённость]]></Name>
+										</Parameter>
+										<Parameter>
+											<Name><![CDATA[время_ожидания]]></Name>
+										</Parameter>
+										<Parameter>
+											<Name><![CDATA[самовывоз]]></Name>
+										</Parameter>
+										<Parameter>
+											<Name><![CDATA[заказ_был]]></Name>
+										</Parameter>
+										<Parameter>
+											<Name><![CDATA[изменить_заказ]]></Name>
+										</Parameter>
 									</Parameters>
 									<ReplicationFlag>true</ReplicationFlag>
 									<Replication Class="CodeValue">
@@ -2899,7 +2923,7 @@ switch (п.востребованность) {
 							<Name><![CDATA[себестоимость]]></Name>
 						</Parameter>
 						<Parameter>
-							<Name><![CDATA[востребованность]]></Name>
+							<Name><![CDATA[группа]]></Name>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[ингредиенты]]></Name>
@@ -2999,12 +3023,12 @@ switch (п.востребованность) {
 							<Key>
 								<PackageName><![CDATA[pizzeria]]></PackageName>
 								<ClassName><![CDATA[Пицца]]></ClassName>
-								<ItemName><![CDATA[востребованность]]></ItemName>
+								<ItemName><![CDATA[группа]]></ItemName>
 							</Key>
 							<Value>
 								<PackageName><![CDATA[pizzeria]]></PackageName>
 								<ClassName><![CDATA[лист1]]></ClassName>
-								<ItemName><![CDATA[востребованность]]></ItemName>
+								<ItemName><![CDATA[группа]]></ItemName>
 							</Value>
 						</Item>	
 					</ParameterToDatabaseColumnMapping>
@@ -6343,7 +6367,7 @@ switch (п.востребованность) {
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1715672496616</Id>
-					<Name><![CDATA[востребованность]]></Name>
+					<Name><![CDATA[группа]]></Name>
 					<X>50</X><Y>250</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
